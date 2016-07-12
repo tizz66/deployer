@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import { setPageTitle } from '../../app/actions';
-import { setProject, fetchProject, showKey } from '../actions';
+import { clearActiveProject, setProject, fetchProject, showKey } from '../actions';
 import { setButtons } from '../../navigation/actions';
 import * as constants from '../../navigation/constants';
 import * as projects from '../constants';
@@ -13,11 +13,13 @@ class ProjectDetails extends Component {
   constructor(props) {
     super(props);
 
+    // FIXME: This seems wrong, and messy
     this.activeProject = props.projects.find((project) => (project.id === parseInt(props.params.id, 10)));
     this.setPageTitle = props.actions.setPageTitle;
     this.setProject = props.actions.setProject;
     this.fetchProject = props.actions.fetchProject;
     this.setButtons = props.actions.setButtons;
+    this.clearActiveProject = props.actions.clearActiveProject;
     this.showKey = props.actions.showKey;
     this.fetching = props.fetching;
   }
@@ -32,7 +34,7 @@ class ProjectDetails extends Component {
 
   componentWillUnmount() {
     this.setButtons([]);
-    this.setProject(null);
+    this.clearActiveProject();
   }
 
   setupProject() {
@@ -92,6 +94,7 @@ const mapDispatchToProps = (dispatch) => ({
     fetchProject,
     setButtons,
     showKey,
+    clearActiveProject,
   }, dispatch),
 });
 
