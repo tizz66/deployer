@@ -9,6 +9,7 @@ const ProjectDetails = (props) => {
   const {
     project,
     children,
+    fetching,
   } = props;
 
   return (
@@ -17,19 +18,24 @@ const ProjectDetails = (props) => {
 
       <div className="row project-status">
         <div className="col-md-12">
-          <div className="nav-tabs-custom">
-            <Nav bsStyle="tabs">
-              <NavItem to={`/projects/${project.id}`} id="deployments" fa="hdd-o" primary>Deployments</NavItem>
-              <NavItem to={`/projects/${project.id}/servers`} id="servers" fa="tasks">Servers</NavItem>
-              <NavItem to={`/projects/${project.id}/commands`} id="commands" fa="terminal">Commands</NavItem>
-              <NavItem to={`/projects/${project.id}/files`} id="files" fa="file-code-o">Files</NavItem>
-              <NavItem to={`/projects/${project.id}/notifications`} id="notifications" fa="bullhorn">Notifications</NavItem>
-              <NavItem to={`/projects/${project.id}/health`} id="health" fa="heartbeat">Health Checks</NavItem>
-            </Nav>
-            <div className="tab-content">
-              <div className="tab-pane active">{children}</div>
-            </div>
-          </div>
+          {
+            fetching ?
+              <p>Loading...</p>
+            :
+              <div className="nav-tabs-custom">
+                <Nav bsStyle="tabs">
+                  <NavItem to={`/projects/${project.id}`} id="deployments" fa="hdd-o" primary>Deployments</NavItem>
+                  <NavItem to={`/projects/${project.id}/servers`} id="servers" fa="tasks">Servers</NavItem>
+                  <NavItem to={`/projects/${project.id}/commands`} id="commands" fa="terminal">Commands</NavItem>
+                  <NavItem to={`/projects/${project.id}/files`} id="files" fa="file-code-o">Files</NavItem>
+                  <NavItem to={`/projects/${project.id}/notifications`} id="notifications" fa="bullhorn">Notifications</NavItem>
+                  <NavItem to={`/projects/${project.id}/health`} id="health" fa="heartbeat">Health Checks</NavItem>
+                </Nav>
+                <div className="tab-content">
+                  <div className="tab-pane active">{children}</div>
+                </div>
+              </div>
+          }
         </div>
       </div>
 
@@ -40,10 +46,15 @@ const ProjectDetails = (props) => {
 
 ProjectDetails.propTypes = {
   project: PropTypes.object.isRequired,
+  fetching: PropTypes.bool,
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
   ]).isRequired,
+};
+
+ProjectDetails.defaultProps = {
+  fetching: false,
 };
 
 export default ProjectDetails;

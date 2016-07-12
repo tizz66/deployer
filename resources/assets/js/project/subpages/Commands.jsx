@@ -1,7 +1,18 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
-const Commands = () => (
-  <div>Commands</div>
+import * as constants from '../constants';
+
+const Commands = (props) => (
+  <div>
+    <pre>{JSON.stringify(props.commands)}</pre>
+    <pre>{JSON.stringify(props.variables)}</pre>
+  </div>
 );
 
-export default Commands;
+const mapStateToProps = (state) => ({
+  commands: state.getIn([constants.NAME, 'commands']),
+  variables: state.getIn([constants.NAME, 'variables']),
+});
+
+export default connect(mapStateToProps)(Commands);

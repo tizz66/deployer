@@ -10,6 +10,7 @@ const initialState = Immutable.fromJS({
   title: '',
   subtitle: null,
   user: false,
+  token: '',
 });
 
 export default function (state = initialState, action) {

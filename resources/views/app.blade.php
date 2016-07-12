@@ -14,8 +14,6 @@
         <!--[if lt IE 9]>
         <script src="{{ elixir('js/ie.js') }}"></script>
         <![endif]-->
-
-        <meta name="token" content="{{ Session::token() }}" />
     </head>
     <body class="skin-{{ $theme }}">
         <script type="text/javascript">
@@ -26,6 +24,7 @@
                     outdated: {{ $is_outdated ? 'true' : 'false' }},
                     latest: '{{ $current_version }}',
                     version: '{{ $latest_version }}',
+                    token: '{{ Session::token() }}',
                 },
                 socket: {
                     server: '{{ config('deployer.socket_url') }}',
