@@ -10,6 +10,7 @@
   "scripts": {
     "postinstall": "touch ./node_modules/.install",
     "clean-build": "rm -rf public/build/ resources/assets/public/",
-    "clean-deps": "ls public/build/ vendor/ node_modules/ resources/assets/public/ resources/assets/node_modules _ide_helper.php .phpstorm.meta.php"
+    "clean-deps": "rm -rf vendor/ node_modules/ resources/assets/node_modules",
+    "install-deps": "composer install; npm install; cd resources/assets; npm install; cd ../.."
   }
 }
