@@ -41,24 +41,25 @@ class DeploymentController extends Controller
         $this->projectRepository    = $projectRepository;
         $this->deploymentRepository = $deploymentRepository;
     }
-    
+
     /**
      * The details of an individual project.
      *
      * @param int $project_id
      *
-     * @return \Illuminate\View\View
+     * @return array
      */
     public function project($project_id)
     {
         $project = $this->projectRepository->getById($project_id);
 
-        $optional = $project->commands->filter(function (Command $command) {
-            return $command->optional;
-        });
+//        $optional = $project->commands->filter(function (Command $command) {
+//            return $command->optional;
+//        });
 
-        return view('projects.details', [
-            'title'         => $project->name,
+        sleep(10);
+
+        return [
             'deployments'   => $this->deploymentRepository->getLatest($project_id),
             'today'         => $this->deploymentRepository->getTodayCount($project_id),
             'last_week'     => $this->deploymentRepository->getLastWeekCount($project_id),
@@ -71,11 +72,12 @@ class DeploymentController extends Controller
             'projectFiles'  => $project->projectFiles,
             'checkUrls'     => $project->checkUrls,
             'variables'     => $project->variables,
-            'optional'      => $optional,
+            //'optional'      => $optional,
+            'commands'      => $project->commands,
             'tags'          => $project->tags()->reverse(),
             'branches'      => $project->branches(),
-            'route'         => 'commands.step',
-        ]);
+            //'route'         => 'commands.step',
+        ];
     }
 
     /**

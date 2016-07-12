@@ -6,6 +6,7 @@ import { setPageTitle } from '../../app/actions';
 import { setProject, fetchProject, showKey } from '../actions';
 import { setButtons } from '../../navigation/actions';
 import * as constants from '../../navigation/constants';
+import * as projects from '../constants';
 import ProjectDetailsComponent from '../components/Details';
 
 class ProjectDetails extends Component {
@@ -18,6 +19,7 @@ class ProjectDetails extends Component {
     this.fetchProject = props.actions.fetchProject;
     this.setButtons = props.actions.setButtons;
     this.showKey = props.actions.showKey;
+    this.fetching = props.fetching;
   }
 
   componentWillMount() {
@@ -36,6 +38,7 @@ class ProjectDetails extends Component {
   setupProject() {
     this.setPageTitle(this.activeProject.name);
     this.setProject(this.activeProject);
+    this.fetchProject(this.activeProject);
 
     this.setButtons([
       {
@@ -58,7 +61,10 @@ class ProjectDetails extends Component {
 
   render() {
     return (
-      <ProjectDetailsComponent project={this.activeProject}>{this.props.children}</ProjectDetailsComponent>
+      <ProjectDetailsComponent
+        project={this.activeProject}
+        fetching={this.props.fetching}
+      >{this.props.children}</ProjectDetailsComponent>
     );
   }
 }
@@ -67,6 +73,7 @@ ProjectDetails.propTypes = {
   projects: PropTypes.array.isRequired,
   actions: PropTypes.object.isRequired,
   params: PropTypes.object.isRequired,
+  fetching: PropTypes.bool.isRequired,
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
@@ -75,6 +82,7 @@ ProjectDetails.propTypes = {
 
 const mapStateToProps = (state) => ({
   projects: state.getIn([constants.NAME, 'projects']).toJS(),
+  fetching: state.getIn([projects.NAME, 'fetching']),
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -3,6 +3,8 @@
 
 namespace REBELinBLUE\Deployer\Http\Controllers;
 
+use REBELinBLUE\Deployer\Contracts\Repositories\ProjectRepositoryInterface;
+
 /**
  * The dashboard controller.
  */

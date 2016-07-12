@@ -1,7 +1,18 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
-const Notifcations = () => (
-  <div>Notifcations</div>
+import * as constants from '../constants';
+
+const Notifications = (props) => (
+  <div>
+    <pre>{JSON.stringify(props.notifications)}</pre>
+    <pre>{JSON.stringify(props.emails)}</pre>
+  </div>
 );
 
-export default Notifcations;
+const mapStateToProps = (state) => ({
+  notifications: state.getIn([constants.NAME, 'notifications']),
+  emails: state.getIn([constants.NAME, 'emails']),
+});
+
+export default connect(mapStateToProps)(Notifications);

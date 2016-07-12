@@ -1,3 +1,5 @@
+import 'isomorphic-fetch';
+
 import * as actions from './actionTypes';
 
 export function setProject(project) {
@@ -7,10 +9,29 @@ export function setProject(project) {
   };
 }
 
-export function fetchProject(project) {
+function receivedProjectData(response) {
+  return {
+    type: actions.LOADED_PROJECT,
+    ...response,
+  };
+}
+
+function isFetching() {
   return {
     type: actions.FETCH_PROJECT,
-    project,
+  };
+}
+
+export function fetchProject(project) {
+  return (dispatch) => {
+    dispatch(isFetching());
+
+    return fetch(`/api/projects/${project.id}`, {
+      credentials: 'same-origin',
+    })
+    .then(response => response.json())
+    .then(json => dispatch(receivedProjectData(json)))
+    .catch(error => console.log(error));
   };
 }
 

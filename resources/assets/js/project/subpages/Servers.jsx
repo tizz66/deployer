@@ -1,7 +1,14 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
-const Servers = () => (
-  <div>Servers</div>
+import * as constants from '../constants';
+
+const Servers = (props) => (
+  <pre>{JSON.stringify(props.servers)}</pre>
 );
 
-export default Servers;
+const mapStateToProps = (state) => ({
+  servers: state.getIn([constants.NAME, 'servers']),
+});
+
+export default connect(mapStateToProps)(Servers);
