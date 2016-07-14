@@ -12,7 +12,7 @@ const initialState = Immutable.fromJS({
   heartbeats: [],
   sharedFiles: [],
   projectFiles: [],
-  checkUrls: [],
+  links: [],
   variables: [],
   commands: [],
   tags: [],
@@ -42,11 +42,24 @@ export default function (state = initialState, action) {
       return state.set('showKey', false);
     case actions.SHOW_SSH_KEY:
       return state.set('showKey', true);
+    case actions.CLEAR_ACTIVE_PROJECT:
+      return state.merge({ // FIXME: There has to be a cleaner way to do this?
+        active: null,
+        showKey: false,
+        fetching: false,
+        servers: [],
+        notifications: [],
+        emails: [],
+        heartbeats: [],
+        sharedFiles: [],
+        projectFiles: [],
+        links: [],
+        variables: [],
+        commands: [],
+        tags: [],
+        branches: [],
+      });
     case actions.SET_ACTIVE_PROJECT:
-      if (action.project === null) {
-        return state.merge(...initialState);
-      }
-
       return state.set('active', action.project);
     default:
       return state;

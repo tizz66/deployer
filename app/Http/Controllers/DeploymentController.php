@@ -56,9 +56,7 @@ class DeploymentController extends Controller
 //        $optional = $project->commands->filter(function (Command $command) {
 //            return $command->optional;
 //        });
-
-        sleep(10);
-
+        
         return [
             'deployments'   => $this->deploymentRepository->getLatest($project_id),
             'today'         => $this->deploymentRepository->getTodayCount($project_id),
